@@ -31,12 +31,18 @@
 
                         <div class="form-group">
                             <label for="price_1">Price 1</label>
-                            <input type="number" class="form-control" id="price_1" name="price_1">
+                            <div class="input-group">
+                                <div class="input-group-addon">$</div>
+                                <input type="number" class="form-control" id="price_1" name="price_1" min="1" step="any">
+                            </div>
                         </div>
 
                         <div class="form-group">
                             <label for="price_2">Price 2</label>
-                            <input type="number" class="form-control" id="price_2" name="price_2">
+                            <div class="input-group">
+                                <div class="input-group-addon">$</div>
+                                <input type="number" class="form-control" id="price_2" name="price_2" min="1" step="any">
+                            </div>
                         </div>
 
                         <button type="submit" class="btn btn-primary">Submit</button>
@@ -60,6 +66,14 @@
         <script>
         $( document ).ready(function() {
             console.log( "ready!" );
+
+            Date.prototype.toDateInputValue = (function() {
+                var local = new Date(this);
+                local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
+                return local.toJSON().slice(0,10);
+            });
+
+            $("#date").val(new Date().toDateInputValue());
             $('#date').pickadate()
         });
         </script>

@@ -18,6 +18,7 @@ class CreatePriceHistoryTable extends Migration
             $table->increments('id');
             $table->double("price_1");
             $table->double("price_2");
+            $table->date("log_date");
             $table->timestamps();
         });
     }

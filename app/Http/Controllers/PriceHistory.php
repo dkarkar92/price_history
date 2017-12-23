@@ -35,7 +35,12 @@ class PriceHistory extends Controller
      */
     public function store(Request $request)
     {
-        \Debugbar::info($request->all());
+        $price_history = new price_history;
+        $price_history->price_1 = $request->price_1;
+        $price_history->price_2 = $request->price_2;
+        $price_history->log_date = date("Y-m-d", strtotime($request->date));
+
+        $price_history->save();
     }
 
     /**
