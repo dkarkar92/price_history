@@ -11,11 +11,14 @@
 |
 */
 
-Route::get('/', function () {
+/*Route::get('/', function () {
     return view('welcome');
-});
+});*/
 
-Route::resource('/home', 'PriceHistory');
+Route::resource('/', 'PriceHistory');
+Route::post('price_history/store', "PriceHistory@store");
+
+Route::get('price_history/graph', "PriceHistory@graph");
 
 /*Route::get('/home', function () {
     return view('home');

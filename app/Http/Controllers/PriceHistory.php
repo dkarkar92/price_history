@@ -14,7 +14,9 @@ class PriceHistory extends Controller
      */
     public function index()
     {
-        return view('home');
+        $price_history = \App\price_history::orderBy("log_date", "ASC")->get();
+
+        return view('home')->with('price_history', $price_history);
     }
 
     /**
@@ -24,7 +26,7 @@ class PriceHistory extends Controller
      */
     public function create()
     {
-        //
+        die("create");
     }
 
     /**
@@ -41,6 +43,8 @@ class PriceHistory extends Controller
         $price_history->log_date = date("Y-m-d", strtotime($request->date));
 
         $price_history->save();
+
+        return redirect('/');
     }
 
     /**
@@ -52,6 +56,7 @@ class PriceHistory extends Controller
     public function show(price_history $price_history)
     {
         //
+        die("show");
     }
 
     /**
@@ -63,6 +68,7 @@ class PriceHistory extends Controller
     public function edit(price_history $price_history)
     {
         //
+        die("edit");
     }
 
     /**
@@ -75,6 +81,7 @@ class PriceHistory extends Controller
     public function update(Request $request, price_history $price_history)
     {
         //
+        die("update");
     }
 
     /**
@@ -86,5 +93,19 @@ class PriceHistory extends Controller
     public function destroy(price_history $price_history)
     {
         //
+    }
+
+    public function graph()
+    {
+        $price_history = \App\price_history::orderBy("log_date", "ASC")->get();
+
+        $price_dataset = array();
+        foreach ($price_history as $key => $value) {
+            $price_dataset['date'][] = $value['log_date'];
+            $price_dataset['price_1'][] = $value['price_1'];
+            $price_dataset['price_2'][] = $value['price_2'];
+        }
+
+        return json_encode($price_dataset);
     }
 }
