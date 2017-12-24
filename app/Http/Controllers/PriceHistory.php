@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 
 class PriceHistory extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +21,7 @@ class PriceHistory extends Controller
     {
         $price_history = \App\price_history::orderBy("log_date", "ASC")->get();
 
-        return view('home')->with('price_history', $price_history);
+        return view('price_history')->with('price_history', $price_history);
     }
 
     /**
@@ -95,6 +100,11 @@ class PriceHistory extends Controller
         //
     }
 
+    /**
+     * Query and return JSON response for price_history graph data
+     *
+     * @return string \Illuminate\Http\Response
+     */
     public function graph()
     {
         $price_history = \App\price_history::orderBy("log_date", "ASC")->get();

@@ -20,10 +20,16 @@ Route::post('price_history/store', "PriceHistory@store");
 
 Route::get('price_history/graph', "PriceHistory@graph");
 
-/*Route::get('/home', function () {
-    return view('home');
-});*/
+Route::get('/test', function () {
+    return view('layouts/app');
+})->middleware('auth');
 
 /*Route::post('/home/submit', function () {
     return view('home');
 });*/
+
+Auth::routes();
+
+//Route::get('/logout', 'LoginController@logout');
+
+Route::get('/home', 'HomeController@index')->name('home');
