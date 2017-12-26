@@ -43,8 +43,8 @@ class PriceHistory extends Controller
     public function store(Request $request)
     {
         $price_history = new price_history;
-        $price_history->price_1 = $request->price_1;
-        $price_history->price_2 = $request->price_2;
+        $price_history->cash = $request->cash;
+        $price_history->credit_card = $request->credit_card;
         $price_history->log_date = date("Y-m-d", strtotime($request->date));
 
         $price_history->save();
@@ -112,8 +112,8 @@ class PriceHistory extends Controller
         $price_dataset = array();
         foreach ($price_history as $key => $value) {
             $price_dataset['date'][] = $value['log_date'];
-            $price_dataset['price_1'][] = $value['price_1'];
-            $price_dataset['price_2'][] = $value['price_2'];
+            $price_dataset['cash'][] = $value['cash'];
+            $price_dataset['credit_card'][] = $value['credit_card'];
         }
 
         return json_encode($price_dataset);
