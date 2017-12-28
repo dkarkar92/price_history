@@ -26,6 +26,8 @@
 
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.16/r-2.2.1/datatables.min.css"/>
 
+    <link rel="stylesheet" type="text/css" href="{!! asset('css/global.css') !!}"/>
+
     @yield('custom-css')
 </head>
 <body>
@@ -52,7 +54,7 @@
                             {{ Auth::user()->name }} <span class="caret"></span>
                         </a>
 
-                        <div class="dropdown-menu" aria-labelledby="login_stuff">
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="login_stuff">
 
                             <a href="{{ route('logout') }}" class="dropdown-item"
                                onclick="event.preventDefault();

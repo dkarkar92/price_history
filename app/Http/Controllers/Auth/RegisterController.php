@@ -29,7 +29,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';
 
     /**
      * Handle a registration request for the application.
@@ -62,7 +62,7 @@ class RegisterController extends Controller
             return $this->registered($request, $user)
                 ?: redirect($this->redirectPath());
         } else {
-            return redirect()->route('login');
+            return redirect()->route('login')->with('error', "The email you provided (" . $request->all()['email'] . ") is not allowed to register. Please contact the administrator to allow registration.");
         }
     }
 
