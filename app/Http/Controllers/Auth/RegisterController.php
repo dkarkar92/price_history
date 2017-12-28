@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Auth;
 
 use App\User;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
 class RegisterController extends Controller
@@ -28,6 +30,41 @@ class RegisterController extends Controller
      * @var string
      */
     protected $redirectTo = '/home';
+
+    /**
+     * Handle a registration request for the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function register(Request $request)
+    {
+        //check if email exists in our list of valid registration emails
+        $email_list = array();
+        $handle = fopen('storage/registration_list.txt', "r");
+        if ($handle) {
+            while (($line = fgets($handle)) !== false) {
+                //echo $line . "<br>";
+                $email_list[trim($line)] = trim($line);
+            }
+            fclose($handle);
+        } else {
+            // error opening the file.
+        }
+
+        if (in_array($request->all()['email'], $email_list)) {
+            $this->validator($request->all())->validate();
+
+            event(new Registered($user = $this->create($request->all())));
+
+            $this->guard()->login($user);
+
+            return $this->registered($request, $user)
+                ?: redirect($this->redirectPath());
+        } else {
+            return redirect()->route('login');
+        }
+    }
 
     /**
      * Create a new controller instance.

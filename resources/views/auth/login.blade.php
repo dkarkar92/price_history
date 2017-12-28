@@ -12,6 +12,7 @@
                 <hr>
             </div>
         </div>
+
         <div class="row">
             <div class="col-md-3"></div>
             <div class="col-md-6">
@@ -30,6 +31,7 @@
                 </div>
             </div>
         </div>
+
         <div class="row">
             <div class="col-md-3"></div>
             <div class="col-md-6">
@@ -38,23 +40,23 @@
                     <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                         <div class="input-group-addon"><img src="/price_history/public/packages/open-iconic-master/svg/key.svg" alt="key"></div>
                         <input id="password" type="password" class="form-control" name="password" required>
-
-                        @if ($errors->has('password'))
-                            <span class="help-block">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                        @endif
                     </div>
                 </div>
             </div>
+
             <div class="col-md-3">
                 <div class="form-control-feedback">
                         <span class="text-danger align-middle">
-                        <!-- Put password error message here -->
+                            @if ($errors->has('password'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('password') }}</strong>
+                                </span>
+                            @endif
                         </span>
                 </div>
             </div>
         </div>
+
         <div class="row">
             <div class="col-md-3"></div>
             <div class="col-md-6" style="padding-top: .35rem">
@@ -66,6 +68,7 @@
                 </div>
             </div>
         </div>
+
         <div class="row" style="padding-top: 1rem">
             <div class="col-md-3"></div>
             <div class="col-md-6">
@@ -78,6 +81,7 @@
                 </a>
             </div>
         </div>
+
     </form>
 </div>
 @endsection

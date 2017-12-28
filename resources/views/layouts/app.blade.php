@@ -44,8 +44,8 @@
             </ul>
             <ul class="navbar-nav navbar-right">
                 @guest
-                    <li><a href="{{ route('login') }}">Login</a></li>
-                    <li><a href="{{ route('register') }}">Register</a></li>
+                    <li class="nav-item"><a href="{{ route('login') }}" class="nav-link">Login</a></li>
+                    <li class="nav-item"><a href="{{ route('register') }}" class="nav-link">Register</a></li>
                 @else
                     <li class="nav-item dropdown">
                         <a href="#" id="login_stuff" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
