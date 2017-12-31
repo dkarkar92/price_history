@@ -41,15 +41,9 @@ class RegisterController extends Controller
     {
         //check if email exists in our list of valid registration emails
         $email_list = array();
-        $handle = fopen('storage/registration_list.txt', "r");
-        if ($handle) {
-            while (($line = fgets($handle)) !== false) {
-                //echo $line . "<br>";
-                $email_list[trim($line)] = trim($line);
-            }
-            fclose($handle);
-        } else {
-            // error opening the file.
+        $email_list_obj = \DB::table('allowed_user_emails')->select('email')->get();
+        foreach ($email_list_obj as $email) {
+            $email_list[$email->email] = $email->email;
         }
 
         if (in_array($request->all()['email'], $email_list)) {
