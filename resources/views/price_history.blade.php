@@ -24,7 +24,9 @@
                         <div class="form-group">
                             <label for="cash">Cash</label>
                             <div class="input-group">
-                                <div class="input-group-addon">$</div>
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">$</div>
+                                </div>
                                 <input type="number" class="form-control" id="cash" name="cash" min="1" step="any">
                             </div>
                         </div>
@@ -32,7 +34,9 @@
                         <div class="form-group">
                             <label for="credit_card">Credit Card</label>
                             <div class="input-group">
-                                <div class="input-group-addon">$</div>
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">$</div>
+                                </div>
                                 <input type="number" class="form-control" id="credit_card" name="credit_card" min="1" step="any">
                             </div>
                         </div>
