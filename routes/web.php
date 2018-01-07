@@ -15,8 +15,10 @@
     return view('welcome');
 });*/
 
-Route::resource('/', 'PriceHistory');
-Route::resource('/stores', 'StoreController');
+Route::resources([
+    '/' => 'PriceHistory',
+    '/stores' => 'StoreController'
+]);
 
 Route::post('price_history/store', "PriceHistory@store");
 
@@ -32,12 +34,10 @@ Route::get('/states.json', function () {
     return asset('js/states.json');
 })->middleware('auth');
 
-/*Route::post('/home/submit', function () {
-    return view('home');
-});*/
-
 Auth::routes();
 
 //Route::get('/logout', 'LoginController@logout');
-
-Route::get('/home', 'HomeController@index')->name('home');
+//Route::get('/home', 'HomeController@index')->name('home');
+/*Route::post('/home/submit', function () {
+    return view('home');
+});*/

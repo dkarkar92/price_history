@@ -23,9 +23,9 @@ class StoreController extends Controller
      */
     public function index()
     {
-        $stores = \App\Store::all();
+        $stores = \App\Store::where('active_flg', true)->get();
 
-        return view('stores')->with('stores', $stores);
+        return view('/stores/stores')->with('stores', $stores);
     }
 
     /**
@@ -47,20 +47,20 @@ class StoreController extends Controller
     public function store(Request $request)
     {
         $stores = new \App\Store;
-        $stores->name = $request->name;
-        $stores->address_1 = $request->address_1;
+        $stores->name           = $request->name;
+        $stores->address_1      = $request->address_1;
         if (!empty($request->address_1)) {
-            $stores->address_2 = $request->address_2;
+            $stores->address_2  = $request->address_2;
         }
-        $stores->city = $request->city;
-        $stores->state = $request->state;
-        $stores->postal_code = $request->postal_code;
+        $stores->city           = $request->city;
+        $stores->state          = $request->state;
+        $stores->postal_code    = $request->postal_code;
 
         $stores->active_flg = true;
 
         $stores->save();
 
-        return redirect('/stores');
+        return redirect()->action('StoreController@index');
     }
 
     /**
@@ -82,7 +82,9 @@ class StoreController extends Controller
      */
     public function edit($id)
     {
-        //
+        $store = \App\Store::find($id);
+
+        return view('/stores/edit_store')->with('store', $store);
     }
 
     /**
@@ -94,7 +96,18 @@ class StoreController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $store = \App\Store::find($id);
+
+        $store->name        = $request->name;
+        $store->address_1   = $request->address_1;
+        $store->address_2   = $request->address_2;
+        $store->city        = $request->city;
+        $store->state       = $request->state;
+        $store->postal_code = $request->postal_code;
+
+        $store->save();
+
+        return redirect()->action('StoreController@index');
     }
 
     /**
@@ -105,6 +118,12 @@ class StoreController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $store = \App\Store::find($id);
+
+        $store->active_flg = false;
+
+        $store->save();
+
+        return redirect()->action('StoreController@index');
     }
 }

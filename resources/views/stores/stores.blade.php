@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('custom-css')
-    <link href="{!! asset('css/stores.css') !!}" rel="stylesheet" type="text/css" />
+    <link href="{!! asset('css/stores/stores.css') !!}" rel="stylesheet" type="text/css" />
 @endsection
 
 @section('content')
@@ -20,6 +20,7 @@
                                     <th>Phone 1</th>
                                     <th>Phone 2</th>
                                     <th>Fax</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -39,6 +40,9 @@
                                     <td>{{ $store->phone_1 }}</td>
                                     <td>{{ $store->phone_2 }}</td>
                                     <td>{{ $store->fax_1 }}</td>
+                                    <td>
+                                        <a href="{{ action('StoreController@edit', ['id' => $store->id]) }}">Edit</a>
+                                    </td>
                                 </tr>
                             @endforeach
                             </tbody>
@@ -105,5 +109,5 @@
 @endsection
 
 @section('custom-js')
-    <script src="{{ asset('js/stores.js') }}"></script>
+    <script src="{{ asset('js/stores/stores.js') }}"></script>
 @endsection
