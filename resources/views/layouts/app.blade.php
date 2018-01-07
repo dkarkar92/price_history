@@ -40,6 +40,9 @@
                 <li class="nav-item active">
                     <a class="nav-link" href="{{ url('/') }}">Home <span class="sr-only">(current)</span></a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url('/stores') }}">Stores <span class="sr-only">(current)</span></a>
+                </li>
             </ul>
             <ul class="navbar-nav navbar-right">
                 @guest

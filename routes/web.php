@@ -16,12 +16,20 @@
 });*/
 
 Route::resource('/', 'PriceHistory');
+Route::resource('/stores', 'StoreController');
+
 Route::post('price_history/store', "PriceHistory@store");
 
+Route::get('price_history/graph', "PriceHistory@graph");
 Route::get('price_history/graph', "PriceHistory@graph");
 
 Route::get('/test', function () {
     return view('layouts/app');
+})->middleware('auth');
+
+//return states json file
+Route::get('/states.json', function () {
+    return asset('js/states.json');
 })->middleware('auth');
 
 /*Route::post('/home/submit', function () {

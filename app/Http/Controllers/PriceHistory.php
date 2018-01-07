@@ -2,16 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\price_history;
 use Illuminate\Http\Request;
+use App\price_history;
 
 class PriceHistory extends Controller
 {
 
+    /**
+     * PriceHistory constructor.
+     */
     public function __construct()
     {
         $this->middleware('auth');
     }
+
     /**
      * Display a listing of the resource.
      *

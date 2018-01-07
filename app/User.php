@@ -26,4 +26,12 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /**
+     * The stores that belong to the user.
+     */
+    public function stores()
+    {
+        return $this->belongsToMany('App\Store', 'users_to_stores');
+    }
 }
