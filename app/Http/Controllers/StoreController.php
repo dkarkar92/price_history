@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Store;
+use App\User;
 
 class StoreController extends Controller
 {
@@ -71,7 +72,24 @@ class StoreController extends Controller
      */
     public function show($id)
     {
-        //
+        $store = \App\Store::find($id);
+        //$users = \App\User::all();
+        $users = new \App\User();
+        $users_to_store = $users->findUsersByStore($id);
+        $users = \App\User::all();
+
+        /*$stores = \App\User::find(1)->stores()->where('id', $id)->get();
+
+        foreach ($stores as $single) {
+            \Debugbar::info($single->name);
+        }*/
+
+        /*\Debugbar::info($users_to_store);
+        echo "<pre>";
+        print_r($users_to_store);
+        echo "</pre>";*/
+
+        return view('/stores/show_store')->with('store', $store)->with('users_to_store', $users_to_store)->with('users', $users);
     }
 
     /**

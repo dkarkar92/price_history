@@ -42,6 +42,7 @@
                                     <td>{{ $store->fax_1 }}</td>
                                     <td>
                                         <a href="{{ action('StoreController@edit', ['id' => $store->id]) }}">Edit</a>
+                                        <a href="{{ action('StoreController@show', ['id' => $store->id]) }}">View Users</a>
                                     </td>
                                 </tr>
                             @endforeach
