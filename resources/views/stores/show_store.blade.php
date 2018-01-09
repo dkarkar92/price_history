@@ -23,16 +23,35 @@
                 <form>
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
-                    @foreach ($users as $user)
-
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="users_to_store" name="users_to_store">
-                            <label class="form-check-label" for="users_to_store">{{ $user->name }}, {{ $user->email }}</label>
-                            {{--@if ()
-                            @endif--}}
-                        </div>
-
-                    @endforeach
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Belongs To Store</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($users as $user)
+                                <?php
+                                        $belongs_to_store = false;
+                                        if (array_key_exists($user->email, $users_in_store)) {
+                                            $belongs_to_store = true;
+                                        }
+                                ?>
+                                <tr class="{{ $belongs_to_store === true ? " table-success " : " " }}">
+                                    <td>
+                                        {{ $user->id }} -
+                                        <input type="checkbox" value="" id="users_to_store" name="users_to_store" {{ $belongs_to_store === true ? "checked" : "" }}>
+                                    </td>
+                                    <td>{{ $user->name }}</td>
+                                    <td>{{ $user->email }}</td>
+                                    <td>{{ $belongs_to_store === true ? "Yes" : "-" }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
 
                 </form>
 

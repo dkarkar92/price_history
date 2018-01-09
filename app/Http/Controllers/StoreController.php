@@ -78,6 +78,10 @@ class StoreController extends Controller
         $users_to_store = $users->findUsersByStore($id);
         $users = \App\User::all();
 
+        //foreach ($users as $user) {
+            //\Debugbar::info($user->stores()->get());
+        //}
+
         /*$stores = \App\User::find(1)->stores()->where('id', $id)->get();
 
         foreach ($stores as $single) {
@@ -89,7 +93,12 @@ class StoreController extends Controller
         print_r($users_to_store);
         echo "</pre>";*/
 
-        return view('/stores/show_store')->with('store', $store)->with('users_to_store', $users_to_store)->with('users', $users);
+        $users_in_store = array();
+        foreach ($users_to_store as $user) {
+            $users_in_store[$user->email] = $user;
+        }
+
+        return view('/stores/show_store')->with('store', $store)->with('users_in_store', $users_in_store)->with('users', $users);
     }
 
     /**
