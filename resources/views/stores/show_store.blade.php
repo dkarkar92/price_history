@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('custom-css')
-    <link href="{!! asset('css/stores/edit_store.css') !!}" rel="stylesheet" type="text/css" />
+    <link href="{!! asset('css/stores/show_store.css') !!}" rel="stylesheet" type="text/css" />
 @endsection
 
 @section('content')
@@ -20,7 +20,7 @@
                 </address>
 
                 <h4>Users that belong to {{ $store->name }}:</h4>
-                <form>
+                <form method="post" action="{{ action('StoreController@addUserToStore', ['store_id' => $store->id]) }}">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
                     <table class="table table-striped table-bordered">
@@ -43,7 +43,10 @@
                                 <tr class="{{ $belongs_to_store === true ? " table-success " : " " }}">
                                     <td>
                                         {{ $user->id }} -
-                                        <input type="checkbox" value="" id="users_to_store" name="users_to_store" {{ $belongs_to_store === true ? "checked" : "" }}>
+                                        <input type="checkbox" value="{{ $user->id }}" class="users_to_store" name="users_to_store[{{ $user->id }}]" {{ $belongs_to_store === true ? "checked" : "" }}>
+                                        @if($belongs_to_store === true)
+                                            <input type="hidden" value="{{ $belongs_to_store === true ? "true" : "false" }}" name="hidden_user[{{ $user->id }}]" >
+                                        @endif
                                     </td>
                                     <td>{{ $user->name }}</td>
                                     <td>{{ $user->email }}</td>
@@ -52,6 +55,8 @@
                             @endforeach
                         </tbody>
                     </table>
+
+                    <button type="submit">Submit</button>
 
                 </form>
 
@@ -62,5 +67,5 @@
 @endsection
 
 @section('custom-js')
-    <script src="{{ asset('js/stores/edit_store.js') }}"></script>
+    <script src="{{ asset('js/stores/show_store.js') }}"></script>
 @endsection

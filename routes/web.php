@@ -25,6 +25,12 @@ Route::post('price_history/store', "PriceHistory@store");
 Route::get('price_history/graph', "PriceHistory@graph");
 Route::get('price_history/graph', "PriceHistory@graph");
 
+//StoreController@addUserToStore
+/*Route::get('/stores/add_user_to_store/{user_id}/{store_id}', function ($user_id, $store_id) {
+    return 'User '. $user_id;
+});*/
+Route::post('/stores/add_user_to_store/{store_id}', "StoreController@addUserToStore");
+
 Route::get('/test', function () {
     return view('layouts/app');
 })->middleware('auth');
