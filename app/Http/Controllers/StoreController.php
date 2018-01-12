@@ -164,25 +164,37 @@ class StoreController extends Controller
      */
     public function addUserToStore(Request $request, $store_id)
     {
-        //find which users in 'users_to_store' that
         $deactive_users = array();
-        foreach ($request->all()['hidden_user'] as $user_id => $value) {
-            if (!array_key_exists($user_id, $request->all()['users_to_store'])) {
-                $deactive_users[] = $user_id;
+        if (!empty($request->all()['hidden_user'])) {
+            //find which users in 'users_to_store' that
+            \Debugbar::info($request->all());
+            if (empty($request->all()['users_to_store'])) {
+                foreach ($request->all()['hidden_user'] as $user_id => $value) {
+                    $deactive_users[] = $user_id;
+                }
+            } else {
+                foreach ($request->all()['hidden_user'] as $user_id => $value) {
+                    if (!array_key_exists($user_id, $request->all()['users_to_store'])) {
+                        $deactive_users[] = $user_id;
+                    }
+                }
+            }
+
+            //print_r($deactive_users);
+            foreach ($deactive_users as $user_id) {
+                \DB::update('UPDATE users_to_stores SET active_flg = false, updated_at = ? WHERE user_id = ? AND store_id = ?', [date("Y-m-d H:i:s"), $user_id, $store_id]);
             }
         }
 
-        foreach ($deactive_users as $user_id) {
-            \DB::update('UPDATE users_to_stores SET active_flg = false, updated_at = ? WHERE user_id = ? AND store_id = ?', [date("Y-m-d H:i:s"), $user_id, $store_id]);
-        }
-
         //make sure to check for users deactivated
-        foreach ($request->all()['users_to_store'] as $key => $value) {
-            \DB::insert('INSERT INTO users_to_stores (user_id, store_id, active_flg, created_at) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE active_flg = ?, updated_at = ?',
-                [
-                    $value, $store_id, true, date("Y-m-d H:i:s"), true, date("Y-m-d H:i:s")
-                ]
-            );
+        if (!empty($request->all()['users_to_store'])) {
+            foreach ($request->all()['users_to_store'] as $key => $value) {
+                \DB::insert('INSERT INTO users_to_stores (user_id, store_id, active_flg, created_at) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE active_flg = ?, updated_at = ?',
+                    [
+                        $value, $store_id, true, date("Y-m-d H:i:s"), true, date("Y-m-d H:i:s")
+                    ]
+                );
+            }
         }
 
         return redirect()->action('StoreController@show', ['id' => $store_id]);

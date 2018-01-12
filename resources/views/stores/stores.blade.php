@@ -41,8 +41,8 @@
                                     <td>{{ $store->phone_2 }}</td>
                                     <td>{{ $store->fax_1 }}</td>
                                     <td>
-                                        <a href="{{ action('StoreController@edit', ['id' => $store->id]) }}">Edit</a>
-                                        <a href="{{ action('StoreController@show', ['id' => $store->id]) }}">View Users</a>
+                                        <a class="btn btn-warning btn-sm" href="{{ action('StoreController@edit', ['id' => $store->id]) }}" role="button">Edit</a>
+                                        <a class="btn btn-primary btn-sm" href="{{ action('StoreController@show', ['id' => $store->id]) }}" role="button">View Users</a>
                                     </td>
                                 </tr>
                             @endforeach

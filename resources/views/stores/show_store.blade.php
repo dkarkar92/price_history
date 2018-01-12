@@ -42,7 +42,7 @@
                                 ?>
                                 <tr class="{{ $belongs_to_store === true ? " table-success " : " " }}">
                                     <td>
-                                        {{ $user->id }} -
+                                        {{--{{ $user->id }} ---}}
                                         <input type="checkbox" value="{{ $user->id }}" class="users_to_store" name="users_to_store[{{ $user->id }}]" {{ $belongs_to_store === true ? "checked" : "" }}>
                                         @if($belongs_to_store === true)
                                             <input type="hidden" value="{{ $belongs_to_store === true ? "true" : "false" }}" name="hidden_user[{{ $user->id }}]" >
@@ -50,7 +50,7 @@
                                     </td>
                                     <td>{{ $user->name }}</td>
                                     <td>{{ $user->email }}</td>
-                                    <td>{{ $belongs_to_store === true ? "Yes" : "-" }}</td>
+                                    <td>{{ $belongs_to_store === true ? "Yes" : "No" }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
