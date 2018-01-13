@@ -41,6 +41,9 @@
                     <a class="nav-link" href="{{ url('/') }}">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="{{ url('/summary') }}">Summary <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="{{ url('/stores') }}">Stores <span class="sr-only">(current)</span></a>
                 </li>
             </ul>
