@@ -17,6 +17,7 @@
                     <thead>
                         <tr>
                             <th>Interval</th>
+                            <td>Dates</td>
                             <th>Cash</th>
                             <th>Credit</th>
                             <th>Total</th>
@@ -26,6 +27,7 @@
                         @foreach ($price_history as $time_period => $data)
                             <tr>
                                 <td>{{ $time_period }}</td>
+                                <td>{{ $date_ranges[$time_period]['start'] }} - {{ $date_ranges[$time_period]['end'] }}</td>
                                 <td>{{ $data[0]->sum_cash }}</td>
                                 <td>{{ $data[0]->sum_credit }}</td>
                                 <td>{{ $data[0]->sum_cash + $data[0]->sum_credit }}</td>

@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\User;
 
-class SummaryController extends Controller
+class UserController extends Controller
 {
-
     /**
-     * SummaryController constructor.
+     * UserController constructor.
      */
     public function __construct()
     {
@@ -20,18 +20,22 @@ class SummaryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $date_ranges = getCalendarDates();
+        $request->user()->authorizeRoles(['employee', 'manager', 'admin']);
 
-        $price_history = array();
-        foreach ($date_ranges as $key => $value) {
-            $price_history[$key] = \DB::table('price_history')
-                ->select(\DB::raw('sum(cash) as sum_cash, sum(credit_card) as sum_credit'))
-                ->whereBetween('log_date', [$value['start'], $value['end']])->get();
-        }
+        $users = \App\User::all();
+        //$roles = \App\Role::all();
 
-        return view('/summary/summary')->with('price_history', $price_history)->with('date_ranges', $date_ranges);
+        $roles = \DB::table('users')
+            ->join('role_user', 'users.id', '=', 'role_user.user_id')
+            ->join('roles', 'roles.id', '=', 'role_user.role_id')
+            ->select('users.name', 'users.email', 'roles.name as role_name')
+            ->get();
+
+        \Debugbar::info($roles);
+
+        return view('/users/users')->with('users', $users)->with('roles', $roles);
     }
 
     /**

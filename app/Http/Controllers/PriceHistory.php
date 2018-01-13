@@ -21,8 +21,10 @@ class PriceHistory extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $request->user()->authorizeRoles(['employee', 'manager', 'admin']);
+
         $price_history = \App\price_history::orderBy("log_date", "ASC")->get();
 
         return view('price_history')->with('price_history', $price_history);

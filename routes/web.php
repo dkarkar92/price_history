@@ -17,6 +17,7 @@
 
 Route::resources([
     '/' => 'PriceHistory',
+    '/users' => 'UserController',
     '/stores' => 'StoreController',
     '/summary' => 'SummaryController'
 ]);
