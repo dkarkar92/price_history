@@ -24,18 +24,17 @@ class UserController extends Controller
     {
         $request->user()->authorizeRoles(['employee', 'manager', 'admin']);
 
-        $users = \App\User::all();
+        //$users = \App\User::all();
         //$roles = \App\Role::all();
 
         $roles = \DB::table('users')
             ->join('role_user', 'users.id', '=', 'role_user.user_id')
             ->join('roles', 'roles.id', '=', 'role_user.role_id')
-            ->select('users.name', 'users.email', 'roles.name as role_name')
+            ->join('stores', 'stores.id', '=', 'users.default_store_id')
+            ->select('users.name', 'users.email', 'roles.name AS role_name', 'users.default_store_id', 'stores.name AS store_name', 'users.active_flg')
             ->get();
 
-        \Debugbar::info($roles);
-
-        return view('/users/users')->with('users', $users)->with('roles', $roles);
+        return view('/users/users')->with('roles', $roles);
     }
 
     /**

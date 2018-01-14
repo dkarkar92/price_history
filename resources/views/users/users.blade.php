@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('custom-css')
-    <link href="{!! asset('css/stores/stores.css') !!}" rel="stylesheet" type="text/css" />
+    <link href="{!! asset('css/users/users.css') !!}" rel="stylesheet" type="text/css" />
 @endsection
 
 @section('content')
@@ -13,7 +13,7 @@
 
                 <h1>Users</h1>
 
-                <table class="table table-bordered">
+                <table id="users_table" class="table table-bordered">
                     <thead>
                     <tr>
                         <th>Name</th>
@@ -29,8 +29,8 @@
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->email  }}</td>
                             <td>{{ $user->role_name }}</td>
-                            <td></td>
-                            <td></td>
+                            <td>{{ $user->store_name }}</td>
+                            <td>{{ $user->active_flg === 1 ? "Yes" : "No" }}</td>
                         </tr>
                     @endforeach
                     </tbody>
@@ -43,5 +43,5 @@
 @endsection
 
 @section('custom-js')
-    <script src="{{ asset('js/stores/stores.js') }}"></script>
+    <script src="{{ asset('js/users/users.js') }}"></script>
 @endsection

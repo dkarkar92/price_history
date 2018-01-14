@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('custom-css')
-    <link href="{!! asset('css/stores/stores.css') !!}" rel="stylesheet" type="text/css" />
+    <link href="{!! asset('css/summary/summary.css') !!}" rel="stylesheet" type="text/css" />
 @endsection
 
 @section('content')
@@ -43,5 +43,5 @@
 @endsection
 
 @section('custom-js')
-    <script src="{{ asset('js/stores/stores.js') }}"></script>
+    <script src="{{ asset('js/summary/summary.js') }}"></script>
 @endsection
