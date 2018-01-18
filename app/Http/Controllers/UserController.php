@@ -34,7 +34,15 @@ class UserController extends Controller
             ->select('users.name', 'users.email', 'roles.name AS role_name', 'users.default_store_id', 'stores.name AS store_name', 'users.active_flg')
             ->get();
 
-        return view('/users/users')->with('roles', $roles);
+        $allowed_user_emails = \DB::table('allowed_user_emails')
+            ->join('stores', 'stores.id', '=', 'allowed_user_emails.default_store_id')
+            ->select('allowed_user_emails.email', 'stores.name AS store_name', 'stores.id AS store_id')
+            ->whereRaw('email NOT IN (SELECT email FROM users)')
+            ->get();
+
+        \Debugbar::info($allowed_user_emails);
+
+        return view('/users/users')->with('roles', $roles)->with('allowed_user_emails', $allowed_user_emails);
     }
 
     /**
