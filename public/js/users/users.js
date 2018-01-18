@@ -4,4 +4,8 @@ $( document ).ready(function() {
         "pageLength": 30
     });
 
+    $('#registrable_table').DataTable({
+        "pageLength": 30
+    });
+
 });

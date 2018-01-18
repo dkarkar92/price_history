@@ -22,8 +22,10 @@ class StoreController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $request->user()->authorizeRoles(['admin']);
+
         $stores = \App\Store::where('active_flg', true)->get();
 
         return view('/stores/stores')->with('stores', $stores);
@@ -34,9 +36,9 @@ class StoreController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $request->user()->authorizeRoles(['admin']);
     }
 
     /**
@@ -47,6 +49,8 @@ class StoreController extends Controller
      */
     public function store(Request $request)
     {
+        $request->user()->authorizeRoles(['admin']);
+
         $stores = new \App\Store;
         $stores->name = $request->name;
         $stores->address_1 = $request->address_1;
@@ -70,8 +74,10 @@ class StoreController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
+        $request->user()->authorizeRoles(['admin']);
+
         $store = \App\Store::find($id);
         //$users = \App\User::all();
         $users = new \App\User();
@@ -107,8 +113,10 @@ class StoreController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
+        $request->user()->authorizeRoles(['admin']);
+
         $store = \App\Store::find($id);
 
         return view('/stores/edit_store')->with('store', $store);
@@ -123,6 +131,8 @@ class StoreController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request->user()->authorizeRoles(['admin']);
+
         $store = \App\Store::find($id);
 
         $store->name = $request->name;
@@ -143,8 +153,10 @@ class StoreController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
+        $request->user()->authorizeRoles(['admin']);
+
         $store = \App\Store::find($id);
 
         $store->active_flg = false;
@@ -164,6 +176,8 @@ class StoreController extends Controller
      */
     public function addUserToStore(Request $request, $store_id)
     {
+        $request->user()->authorizeRoles(['admin']);
+
         $deactive_users = array();
         if (!empty($request->all()['hidden_user'])) {
             //find which users in 'users_to_store' that

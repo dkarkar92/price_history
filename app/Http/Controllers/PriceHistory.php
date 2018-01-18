@@ -35,8 +35,9 @@ class PriceHistory extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
+        $request->user()->authorizeRoles(['employee', 'manager', 'admin']);
         die("create");
     }
 
@@ -48,6 +49,8 @@ class PriceHistory extends Controller
      */
     public function store(Request $request)
     {
+        $request->user()->authorizeRoles(['employee', 'manager', 'admin']);
+
         $price_history = new price_history;
         $price_history->cash = $request->cash;
         $price_history->credit_card = $request->credit_card;
@@ -64,9 +67,9 @@ class PriceHistory extends Controller
      * @param  \App\price_history  $price_history
      * @return \Illuminate\Http\Response
      */
-    public function show(price_history $price_history)
+    public function show(Request $request, price_history $price_history)
     {
-        //
+        $request->user()->authorizeRoles(['employee', 'manager', 'admin']);
         die("show");
     }
 
@@ -76,9 +79,9 @@ class PriceHistory extends Controller
      * @param  \App\price_history  $price_history
      * @return \Illuminate\Http\Response
      */
-    public function edit(price_history $price_history)
+    public function edit(Request $request, price_history $price_history)
     {
-        //
+        $request->user()->authorizeRoles(['employee', 'manager', 'admin']);
         die("edit");
     }
 
@@ -91,7 +94,7 @@ class PriceHistory extends Controller
      */
     public function update(Request $request, price_history $price_history)
     {
-        //
+        $request->user()->authorizeRoles(['employee', 'manager', 'admin']);
         die("update");
     }
 
@@ -101,9 +104,9 @@ class PriceHistory extends Controller
      * @param  \App\price_history  $price_history
      * @return \Illuminate\Http\Response
      */
-    public function destroy(price_history $price_history)
+    public function destroy(Request $request, price_history $price_history)
     {
-        //
+        $request->user()->authorizeRoles(['employee', 'manager', 'admin']);
     }
 
     /**
@@ -111,8 +114,10 @@ class PriceHistory extends Controller
      *
      * @return string \Illuminate\Http\Response
      */
-    public function graph()
+    public function graph(Request $request)
     {
+        $request->user()->authorizeRoles(['employee', 'manager', 'admin']);
+
         $price_history = \App\price_history::orderBy("log_date", "ASC")->get();
 
         $price_dataset = array();

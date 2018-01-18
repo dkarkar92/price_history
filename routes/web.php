@@ -23,6 +23,7 @@ Route::resources([
 ]);
 
 Route::post('price_history/store', "PriceHistory@store");
+Route::post('users/allowed_user_emails', "UserController@addRegistrableUser");
 
 Route::get('price_history/graph', "PriceHistory@graph");
 Route::get('price_history/graph', "PriceHistory@graph");
