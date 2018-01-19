@@ -7,6 +7,10 @@
 @section('content')
 <div class="container">
 
+    <h1>{{ $store->name }}</h1>
+
+    <hr>
+
     <div class="row justify-content-md-center">
 
         <!-- <div class="col"></div> -->

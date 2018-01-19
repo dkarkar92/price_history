@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\price_history;
+use App\Store;
 
 class PriceHistory extends Controller
 {
@@ -25,9 +26,12 @@ class PriceHistory extends Controller
     {
         $request->user()->authorizeRoles(['employee', 'manager', 'admin']);
 
-        $price_history = \App\price_history::orderBy("log_date", "ASC")->get();
+        $default_store_id = \Auth::user()->default_store_id;
+        $store = \App\Store::where('id', $default_store_id)->first();
 
-        return view('price_history')->with('price_history', $price_history);
+        $price_history = \App\price_history::orderBy("log_date", "ASC")->where('store_id', $default_store_id)->get();
+
+        return view('price_history')->with('price_history', $price_history)->with('store', $store);
     }
 
     /**
@@ -118,7 +122,9 @@ class PriceHistory extends Controller
     {
         $request->user()->authorizeRoles(['employee', 'manager', 'admin']);
 
-        $price_history = \App\price_history::orderBy("log_date", "ASC")->get();
+        $default_store_id = \Auth::user()->default_store_id;
+
+        $price_history = \App\price_history::orderBy("log_date", "ASC")->where('store_id', $default_store_id)->get();
 
         $price_dataset = array();
         foreach ($price_history as $key => $value) {
