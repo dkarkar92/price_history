@@ -25,12 +25,13 @@
                     </thead>
                     <tbody>
                         @foreach ($price_history as $time_period => $data)
+                            <?php \Debugbar::info($data[0]->sum_cash ) ?>
                             <tr>
                                 <td>{{ $time_period }}</td>
                                 <td>{{ $date_ranges[$time_period]['start'] }} - {{ $date_ranges[$time_period]['end'] }}</td>
-                                <td>{{ $data[0]->sum_cash }}</td>
-                                <td>{{ $data[0]->sum_credit }}</td>
-                                <td>{{ $data[0]->sum_cash + $data[0]->sum_credit }}</td>
+                                <td>${{ is_null($data[0]->sum_cash) ? "0" : $data[0]->sum_cash }}</td>
+                                <td>${{ is_null($data[0]->sum_credit) ? "0" : $data[0]->sum_credit }}</td>
+                                <td>${{ $data[0]->sum_cash + $data[0]->sum_credit }}</td>
                             </tr>
                         @endforeach
                     </tbody>
