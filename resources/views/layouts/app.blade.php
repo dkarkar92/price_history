@@ -60,6 +60,12 @@ if (Auth::check()) {
                         <a class="nav-link" href="{{ url('/stores') }}">Stores <span class="sr-only">(current)</span></a>
                     </li>
                 @endif
+
+                @if ($user_role !== false && in_array($user_role, array("admin", "manager")))
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url('/employees') }}">Employees <span class="sr-only">(current)</span></a>
+                    </li>
+                @endif
             </ul>
             <ul class="navbar-nav navbar-right">
                 @guest

@@ -19,7 +19,8 @@ Route::resources([
     '/' => 'PriceHistory',
     '/users' => 'UserController',
     '/stores' => 'StoreController',
-    '/summary' => 'SummaryController'
+    '/summary' => 'SummaryController',
+    '/employees' => 'EmployeeController'
 ]);
 
 Route::post('price_history/store', "PriceHistory@store");
