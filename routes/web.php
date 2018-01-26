@@ -16,11 +16,12 @@
 });*/
 
 Route::resources([
-    '/' => 'PriceHistory',
-    '/users' => 'UserController',
-    '/stores' => 'StoreController',
-    '/summary' => 'SummaryController',
-    '/employees' => 'EmployeeController'
+    '/'             => 'PriceHistory',
+    '/users'        => 'UserController',
+    '/stores'       => 'StoreController',
+    '/summary'      => 'SummaryController',
+    '/employees'    => 'EmployeeController',
+    '/hours'        => 'EmployeeHoursController'
 ]);
 
 Route::post('price_history/store', "PriceHistory@store");

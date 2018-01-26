@@ -16,12 +16,14 @@
 
                     <div class="card">
                         <div class="card-body">
-                            <table id="" class="table table-sm table-bordered table-striped">
+                            <table id="" class="table table-sm table-bordered table-striped employees_table">
                                 <thead class="">
                                     <tr>
                                         <td>Employee Name</td>
                                         <td>Weekly Pay Rate</td>
+                                        <td>Payment Type</td>
                                         <td>Role</td>
+                                        <!-- <td>Action</td> -->
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -30,7 +32,9 @@
                                             <tr>
                                                 <td>{{ $employee_value->first_name }} {{ $employee_value->last_name }}</td>
                                                 <td>${{ $employee_value->weekly_pay_rate }}</td>
+                                                <td>{{ $employee_value->default_payment_type }}</td>
                                                 <td>{{ ucfirst($employee_value->role_name) }}</td>
+                                                <!-- <td><button class="btn btn-danger btn-sm">Delete</button></td> -->
                                             </tr>
                                         @endif
                                     @endforeach
@@ -84,6 +88,14 @@
                                     </div>
                                     <input type="number" class="form-control" id="weekly_pay_rate" name="weekly_pay_rate" min="1" step="any" required>
                                 </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="default_payment_type" class="col-form-label">Payment Type:</label>
+                                <select class="form-control" id="default_payment_type" name="default_payment_type" required>
+                                        <option value="Cash">Cash</option>
+                                        <option value="Credit">Credit</option>
+                                </select>
                             </div>
 
                             <div class="form-group">

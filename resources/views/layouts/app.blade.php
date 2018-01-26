@@ -65,6 +65,9 @@ if (Auth::check()) {
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url('/employees') }}">Employees <span class="sr-only">(current)</span></a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url('/hours') }}">Employee Hours <span class="sr-only">(current)</span></a>
+                    </li>
                 @endif
             </ul>
             <ul class="navbar-nav navbar-right">

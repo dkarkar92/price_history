@@ -6,11 +6,11 @@ use Illuminate\Http\Request;
 use App\Employee;
 use App\Role;
 
-class EmployeeController extends Controller
+class EmployeeHoursController extends Controller
 {
 
     /**
-     * EmployeeController constructor.
+     * EmployeeHoursController constructor.
      */
     public function __construct()
     {
@@ -25,6 +25,7 @@ class EmployeeController extends Controller
     public function index(Request $request)
     {
         $request->user()->authorizeRoles(['manager', 'admin']);
+        $date_ranges = getCalendarDates();
 
         $store_ids = array();
         $stores_to_user = \Auth::user()->stores()->get();
@@ -33,19 +34,29 @@ class EmployeeController extends Controller
             $store_ids[$value->id] = $value->id;
         }
 
-        //$employees = \App\Employee::whereIn("store_id", $store_ids)->get();
-        $employees = \DB::table('employees')
-                        ->join('roles', 'roles.id', '=', 'employees.role_id')
-                        ->select('employees.*', 'roles.name AS role_name')
-                        ->whereIn("store_id", $store_ids)
-                        ->get();
+        $employees = \App\Employee::whereIn("store_id", $store_ids)->get();
 
-        $roles = \App\Role::all();
+        $employee_id_array = array();
+        foreach ($employees as $key => $value) {
+            $employee_id_array[] = $value->id;
+        }
 
-        return view('/employees/employees')
+        $hours_this_week = \DB::table('employee_hours')
+                                ->select('employee_id', 'amount_paid')
+                                    ->whereIn("employee_id", $employee_id_array)
+                                    ->where('week_start_date', $date_ranges['This Week']['start'] )
+                                    ->get()->toArray();
+
+        $hours_keyed = array();
+        foreach ($hours_this_week as $key => $value) {
+            $hours_keyed[$value->employee_id] = $value;
+        }
+
+        return view('/employee_hours/employee_hours')
             ->with('employees', $employees)
             ->with('stores_to_user', $stores_to_user)
-            ->with('roles', $roles);
+            ->with('hours_this_week', $hours_keyed);
+
     }
 
     /**
@@ -68,19 +79,35 @@ class EmployeeController extends Controller
     {
         $request->user()->authorizeRoles(['manager', 'admin']);
 
-        $employee = new \App\Employee;
-        $employee->first_name = $request->first_name;
-        $employee->last_name = $request->last_name;
-        $employee->weekly_pay_rate = $request->weekly_pay_rate;
-        $employee->default_payment_type = $request->default_payment_type;
-        $employee->role_id = $request->employee_role;
-        $employee->store_id = $request->employee_store;
+        //check if record exists
+        $week_start_date = date("Y-m-d", strtotime($request->week_start_input));
+        $now = date("Y-m-d H:i:s");
 
-        $employee->active_flg = true;
+        foreach ($request->amount_paid as $employee_id => $amount) {
+            $employee_cnt = \DB::table('employee_hours')->select('employee_id')->where("employee_id", $employee_id)->where('week_start_date', $week_start_date )->first();
 
-        $employee->save();
+            if (is_null($employee_cnt)) {
+                \DB::table('employee_hours')->insert(
+                    [   'employee_id' => $employee_id,
+                        'amount_paid' => $amount,
+                        "week_start_date" => $week_start_date,
+                        "created_at" => $now,
+                        "updated_at" => $now
+                    ]
+                );
+            } else {
+                \DB::table('employee_hours')
+                    ->where('employee_id', $employee_id)
+                    ->where("week_start_date", $week_start_date)
+                    ->update(   [
+                                    'amount_paid' => $amount,
+                                    "updated_at" => $now
+                                ]
+                );
+            }
+        }
 
-        return redirect()->action('EmployeeController@index');
+        return redirect()->action('EmployeeHoursController@index');
     }
 
     /**
