@@ -7,27 +7,22 @@
 @section('content')
     <div class="container">
 
-        <pre>
-            <?php
-                print_r($hours_this_week);
-//                 $hours_this_week[$employee_value->id]->amount_paid === false ?   "" : $hours_this_week['$employee_value->id']->amount_paid
-//
-// {{ !is_null($hours_this_week[$employee_value->id]) ? $hours_this_week[$employee_value->id]->amount_paid : $employee_value->weekly_pay_rate  }}
-             ?>
-        </pre>
-
-        <div class="row justify-content-md-center">
-            <div class="col-sm">
+        <div class="row justify-content-center">
+            <div class="col col-sm col-md-8 col-lg-6">
                 <div class="card">
-                    <div class="card-body">
-                        <div class="form-group col-sm">
+                    <div class="card-body mx-auto">
+                        <div class="form-group ">
                             <label for="date">Date</label>
                             <input type="date" class="form-control" id="date" name="date">
                         </div>
 
                         <div class="">
-                            <h4>
-                                <span id="week_start"></span> to <span id="week_end"></span>
+                            <h4 class="text-center">
+                                <span id="week_start"></span>
+                                <br>
+                                <span>to</span>
+                                <br>
+                                <span id="week_end"></span>
                             </h4>
                         </div>
                     </div>
@@ -39,8 +34,8 @@
 
         @foreach($stores_to_user as $key => $value)
 
-            <div class="row justify-content-md-center">
-                <div class="col-sm">
+            <div class="row justify-content-center">
+                <div class="col">
 
                     <div class="card">
                         <div class="card-body">
@@ -49,31 +44,48 @@
 
                             <form method="post" action="{{ action('EmployeeHoursController@store') }}">
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                <input type="hidden" name="week_start_input" id="week_start_input" value="">
+                                <input type="hidden" name="week_start_input" class="week_start_input" value="">
+
+                                <div class="table-responsive">
+
 
                                 <table id="" class="table table-sm table-bordered table-striped employees_table">
                                     <thead class="">
                                         <tr>
                                             <td>Employee Name</td>
                                             <td>Amount Paid</td>
+                                            <td>Last Updated</td>
                                         </tr>
                                     </thead>
                                     <tbody>
 
                                         @foreach($employees as $employee_key => $employee_value)
                                             @if($employee_value->store_id == $value->id)
+
                                                 <input type="hidden" name="employee_id[{{ $employee_value->id }}]" value="{{ $employee_value->id }}">
 
                                                 <tr>
                                                     <td>{{ $employee_value->first_name }} {{ $employee_value->last_name }}</td>
 
                                                     <td>
-                                                        <div class="input-group mb-3 col-4">
+                                                        <div class="input-group col col-sm-8 col-md-6 col-lg-6 custom-currency-input mx-auto">
                                                             <div class="input-group-prepend">
-                                                                <span class="input-group-text" id="basic-addon1">$</span>
+                                                                <span class="input-group-text currencyAddOn">$</span>
                                                             </div>
-                                                            <input type="number" class="form-control amount_paid" placeholder="Username" name="amount_paid[{{ $employee_value->id }}]" value="">
+                                                            @if (empty($hours_this_week) || empty($hours_this_week[$employee_value->id]))
+                                                                <input type="number" class="form-control amount_paid" placeholder="" name="amount_paid[{{ $employee_value->id }}]" min="1" step="any" value="{{ $employee_value->weekly_pay_rate }}">
+                                                            @else
+                                                                <input type="number" class="form-control amount_paid" placeholder="" name="amount_paid[{{ $employee_value->id }}]" min="1" step="any" value="{{ $hours_this_week[$employee_value->id]->amount_paid }}">
+                                                            @endif
                                                         </div>
+                                                    </td>
+
+                                                    <td>
+                                                        @if (empty($hours_this_week) || empty($hours_this_week[$employee_value->id]))
+                                                            --
+                                                        @else
+                                                            {{ date("D, M jS Y", strtotime($hours_this_week[$employee_value->id]->updated_at)) }}
+                                                        @endif
                                                     </td>
                                                 </tr>
 
@@ -83,7 +95,9 @@
                                     </tbody>
                                 </table>
 
-                                <button type="submit" class="btn btn-primary">Submit {{ $value->name }} Pay Record</button>
+                                <button type="submit" class="btn btn-primary btn-block">Submit {{ $value->name }} Pay Record</button>
+
+                                </div>
 
                             </form>
 

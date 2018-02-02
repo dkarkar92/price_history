@@ -11,7 +11,7 @@
 
     <hr>
 
-    <div class="row justify-content-md-center">
+    <div class="row justify-content-center">
 
         <!-- <div class="col"></div> -->
 
@@ -56,12 +56,12 @@
 
     <hr>
 
-    <div class="row justify-content-md-center">
+    <div class="row justify-content-center">
         <div class="col">
             <div class="card">
                 <div class="card-body">
                     <table id="price_history_table" class="table table-sm table-bordered table-striped">
-                        <thead class="thead-dark">
+                        <thead class="">
                         <tr>
                             <th>Date</th>
                             <th>Cash</th>

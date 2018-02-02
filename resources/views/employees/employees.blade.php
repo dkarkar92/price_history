@@ -11,35 +11,41 @@
 
             <h2>{{ $value->name }}</h2>
 
-            <div class="row justify-content-md-center">
+            <div class="row justify-content-center">
                 <div class="col">
 
                     <div class="card">
                         <div class="card-body">
-                            <table id="" class="table table-sm table-bordered table-striped employees_table">
-                                <thead class="">
-                                    <tr>
-                                        <td>Employee Name</td>
-                                        <td>Weekly Pay Rate</td>
-                                        <td>Payment Type</td>
-                                        <td>Role</td>
-                                        <!-- <td>Action</td> -->
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($employees as $employee_key => $employee_value)
-                                        @if($employee_value->store_id == $value->id)
-                                            <tr>
-                                                <td>{{ $employee_value->first_name }} {{ $employee_value->last_name }}</td>
-                                                <td>${{ $employee_value->weekly_pay_rate }}</td>
-                                                <td>{{ $employee_value->default_payment_type }}</td>
-                                                <td>{{ ucfirst($employee_value->role_name) }}</td>
-                                                <!-- <td><button class="btn btn-danger btn-sm">Delete</button></td> -->
-                                            </tr>
-                                        @endif
-                                    @endforeach
-                                </tbody>
-                            </table>
+
+                            <div class="table-responsive">
+
+                                <table id="" class="table table-sm table-bordered table-striped employees_table">
+                                    <thead class="">
+                                        <tr>
+                                            <td>Employee Name</td>
+                                            <td>Weekly Pay Rate</td>
+                                            <td>Payment Type</td>
+                                            <td>Role</td>
+                                            <!-- <td>Action</td> -->
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($employees as $employee_key => $employee_value)
+                                            @if($employee_value->store_id == $value->id)
+                                                <tr>
+                                                    <td>{{ $employee_value->first_name }} {{ $employee_value->last_name }}</td>
+                                                    <td>${{ $employee_value->weekly_pay_rate }}</td>
+                                                    <td>{{ $employee_value->default_payment_type }}</td>
+                                                    <td>{{ ucfirst($employee_value->role_name) }}</td>
+                                                    <!-- <td><button class="btn btn-danger btn-sm">Delete</button></td> -->
+                                                </tr>
+                                            @endif
+                                        @endforeach
+                                    </tbody>
+                                </table>
+
+                            </div>
+
                         </div>
                     </div>
 

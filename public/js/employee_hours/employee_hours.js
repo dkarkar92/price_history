@@ -18,7 +18,7 @@ function getWeekStartEndDate() {
 function setHTMLValues(start_end) {
     $("#week_start").text(start_end[0]);
     $("#week_end").text(start_end[1]);
-    $("#week_start_input").val(start_end[0]);
+    $(".week_start_input").val(start_end[0]);
 }
 
 $( document ).ready(function() {

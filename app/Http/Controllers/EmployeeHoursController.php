@@ -42,7 +42,7 @@ class EmployeeHoursController extends Controller
         }
 
         $hours_this_week = \DB::table('employee_hours')
-                                ->select('employee_id', 'amount_paid')
+                                ->select('employee_id', 'amount_paid', 'created_at', 'updated_at')
                                     ->whereIn("employee_id", $employee_id_array)
                                     ->where('week_start_date', $date_ranges['This Week']['start'] )
                                     ->get()->toArray();

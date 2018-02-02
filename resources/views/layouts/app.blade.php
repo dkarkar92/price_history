@@ -46,34 +46,34 @@ if (Auth::check()) {
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url('/') }}">Home <span class="sr-only">(current)</span></a>
+                    <a class="nav-link {{ is_null(Request::segment(1)) ? 'active' : '' }}" href="{{ url('/') }}">Home <span class="sr-only">(current)</span></a>
                 </li>
 
                 @if ($user_role !== false && in_array($user_role, array("admin")))
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/users') }}">Users <span class="sr-only">(current)</span></a>
+                        <a class="nav-link {{ Request::segment(1) === 'users' ? 'active' : '' }}" href="{{ url('/users') }}">Users <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/summary') }}">Summary <span class="sr-only">(current)</span></a>
+                        <a class="nav-link {{ Request::segment(1) === 'summary' ? 'active' : '' }}" href="{{ url('/summary') }}">Summary <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/stores') }}">Stores <span class="sr-only">(current)</span></a>
+                        <a class="nav-link {{ Request::segment(1) === 'stores' ? 'active' : '' }}" href="{{ url('/stores') }}">Stores <span class="sr-only">(current)</span></a>
                     </li>
                 @endif
 
                 @if ($user_role !== false && in_array($user_role, array("admin", "manager")))
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/employees') }}">Employees <span class="sr-only">(current)</span></a>
+                        <a class="nav-link {{ Request::segment(1) === 'employees' ? 'active' : '' }}" href="{{ url('/employees') }}">Employees <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/hours') }}">Employee Hours <span class="sr-only">(current)</span></a>
+                        <a class="nav-link {{ Request::segment(1) === 'hours' ? 'active' : '' }}" href="{{ url('/hours') }}">Employee Hours <span class="sr-only">(current)</span></a>
                     </li>
                 @endif
             </ul>
             <ul class="navbar-nav navbar-right">
                 @guest
-                    <li class="nav-item"><a href="{{ route('login') }}" class="nav-link">Login</a></li>
-                    <li class="nav-item"><a href="{{ route('register') }}" class="nav-link">Register</a></li>
+                    <li class="nav-item {{ Request::segment(1) === 'login' ? 'active' : '' }}"><a href="{{ route('login') }}" class="nav-link">Login</a></li>
+                    <li class="nav-item {{ Request::segment(1) === 'register' ? 'active' : '' }}"><a href="{{ route('register') }}" class="nav-link">Register</a></li>
                 @else
                     <li class="nav-item dropdown">
                         <a href="#" id="login_stuff" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
@@ -103,7 +103,7 @@ if (Auth::check()) {
     <footer>
         <div class="container">
                 <p class="text-center">Created By Darshan Karkar</p>
-                <p class="text-center">v 0.1</p>
+                <p class="text-center">v {{ config('app.version_number') }}</p>
         </div>
     </footer>
 
