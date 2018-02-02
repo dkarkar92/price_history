@@ -11,14 +11,14 @@
 
     <hr>
 
-    <div class="row justify-content-md-center">
+    <div class="row justify-content-center">
 
         <!-- <div class="col"></div> -->
 
         <div class="card">
             <div class="card-body">
                 <div class="col">
-                    <form method="post" action="{{action('PriceHistory@store')}}">
+                    <form method="post" action="{{ action('PriceHistory@store') }}">
 
                         <div class="form-group">
                             <label for="date">Date</label>
@@ -31,7 +31,7 @@
                                 <div class="input-group-prepend">
                                     <div class="input-group-text">$</div>
                                 </div>
-                                <input type="number" class="form-control" id="cash" name="cash" min="1" step="any">
+                                <input type="number" class="form-control" id="cash" name="cash" min="1" step="any" required>
                             </div>
                         </div>
 
@@ -41,11 +41,11 @@
                                 <div class="input-group-prepend">
                                     <div class="input-group-text">$</div>
                                 </div>
-                                <input type="number" class="form-control" id="credit_card" name="credit_card" min="1" step="any">
+                                <input type="number" class="form-control" id="credit_card" name="credit_card" min="1" step="any" required>
                             </div>
                         </div>
 
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="submit" id="submit_btn" class="btn btn-primary">Submit</button>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     </form>
                 </div>
@@ -56,12 +56,12 @@
 
     <hr>
 
-    <div class="row justify-content-md-center">
+    <div class="row justify-content-center">
         <div class="col">
             <div class="card">
                 <div class="card-body">
                     <table id="price_history_table" class="table table-sm table-bordered table-striped">
-                        <thead class="thead-dark">
+                        <thead class="">
                         <tr>
                             <th>Date</th>
                             <th>Cash</th>

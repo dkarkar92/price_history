@@ -7,7 +7,7 @@
 @section('content')
     <div class="container">
 
-        <div id="edit_store_form" class="row justify-content-md-center">
+        <div id="edit_store_form" class="row justify-content-center">
             <div class="col">
 
                 <form method="post" action="{{ action('StoreController@update', ['id' => $store->id]) }}">

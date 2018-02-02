@@ -135,4 +135,24 @@ class PriceHistory extends Controller
 
         return json_encode($price_dataset);
     }
+
+    /**
+     * return price history data for a specific store on a specific day.
+     * @return JSON
+     */
+    public function getPriceDataForDay(Request $request) {
+        $request->user()->authorizeRoles(['employee', 'manager', 'admin']);
+        $date = $request->date;
+        $date = date("Y-m-d", strtotime($date));
+
+        $default_store_id = \Auth::user()->default_store_id;
+
+        $price_history = \App\price_history::where('store_id', $default_store_id)->where("log_date", $date)->first();
+
+        if (empty($price_history)) {
+            $price_history = array();
+        }
+
+        return json_encode($price_history);
+    }
 }

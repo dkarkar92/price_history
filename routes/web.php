@@ -16,17 +16,19 @@
 });*/
 
 Route::resources([
-    '/' => 'PriceHistory',
-    '/users' => 'UserController',
-    '/stores' => 'StoreController',
-    '/summary' => 'SummaryController'
+    '/'             => 'PriceHistory',
+    '/users'        => 'UserController',
+    '/stores'       => 'StoreController',
+    '/summary'      => 'SummaryController',
+    '/employees'    => 'EmployeeController',
+    '/hours'        => 'EmployeeHoursController'
 ]);
 
 Route::post('price_history/store', "PriceHistory@store");
 Route::post('users/allowed_user_emails', "UserController@addRegistrableUser");
 
 Route::get('price_history/graph', "PriceHistory@graph");
-Route::get('price_history/graph', "PriceHistory@graph");
+Route::get('price_history/price_for_day', "PriceHistory@getPriceDataForDay");
 
 //StoreController@addUserToStore
 /*Route::get('/stores/add_user_to_store/{user_id}/{store_id}', function ($user_id, $store_id) {

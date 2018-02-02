@@ -1,4 +1,6 @@
 $( document ).ready(function() {
+    var today = moment().format("YYYY-MM-DD");
+
     Date.prototype.toDateInputValue = (function() {
         var local = new Date(this);
         local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
@@ -8,6 +10,34 @@ $( document ).ready(function() {
     $("#date").val(new Date().toDateInputValue());
     $('#date').pickadate();
 
+    $('#date').change(function() {
+        var picked_date = moment(this.value).format("YYYY-MM-DD");
+
+        $.ajax({
+            method: "GET",
+            url: "price_history/price_for_day",
+            data: {
+                date: this.value
+            },
+            dataType: 'json'
+        }).done(function( data ) {
+            if (moment(picked_date).isSame(today)) {
+                $("#submit_btn").removeClass("disabled");
+            } else {
+                console.log("here");
+                $("#submit_btn").addClass("disabled");
+            }
+
+            if (data.hasOwnProperty('cash') && data.hasOwnProperty('credit_card')) {
+                $("#cash").val(data['cash']);
+                $("#credit_card").val(data['credit_card']);
+            } else {
+                $("#cash").val("0");
+                $("#credit_card").val("0");
+            }
+        });
+    });
+
     $('#price_history_table').DataTable({
         "pageLength": 10
     });
@@ -15,7 +45,7 @@ $( document ).ready(function() {
     $.ajax({
         method: "GET",
         url: "price_history/graph",
-        dataType: 'json',
+        dataType: 'json'
     }).done(function( data ) {
         var formatted_date = [];
 

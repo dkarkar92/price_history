@@ -7,7 +7,7 @@
 @section('content')
     <div class="container">
 
-        <div id="show_store_form" class="row justify-content-md-center">
+        <div id="show_store_form" class="row justify-content-center">
             <div class="col">
 
                 <address>

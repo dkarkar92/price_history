@@ -8,64 +8,79 @@
 
     <div class="container">
 
-        <div class="row justify-content-md-center">
+        <div class="row justify-content-center">
             <div class="col">
 
-                <h1>Users</h1>
+                <div class="card">
+                    <div class="card-body">
 
-                <table id="users_table" class="table table-bordered">
-                    <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Role</th>
-                        <th>Default Store</th>
-                        <th>Activity Status</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach ($user_roles as $user)
-                        <tr>
-                            <td>{{ $user->name }}</td>
-                            <td>{{ $user->email  }}</td>
-                            <td>{{ $user->role_name }}</td>
-                            <td>{{ $user->store_name }}</td>
-                            <td>{{ $user->active_flg === 1 ? "Yes" : "No" }}</td>
-                        </tr>
-                    @endforeach
-                    </tbody>
-                </table>
+                        <h1>Users</h1>
+
+                        <div class="table-responsive">
+                            <table id="users_table" class="table table-sm table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    <th>Default Store</th>
+                                    <th>Activity Status</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach ($user_roles as $user)
+                                    <tr>
+                                        <td>{{ $user->name }}</td>
+                                        <td>{{ $user->email  }}</td>
+                                        <td>{{ $user->role_name }}</td>
+                                        <td>{{ $user->store_name }}</td>
+                                        <td>{{ $user->active_flg === 1 ? "Yes" : "No" }}</td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
 
             </div>
         </div>
 
         <hr>
 
-        <div class="row justify-content-md-center">
+        <div class="row justify-content-center">
             <div class="col">
 
-                <h1>Registrable Users</h1>
+                <div class="card">
+                    <div class="card-body">
 
-                <table id="registrable_table" class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Email</th>
-                            <td>Store Name</td>
-                            <td>Role Name</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($allowed_user_emails as $user)
-                            <tr>
-                                <td>{{ $user->email }}</td>
-                                <td>{{ $user->store_name  }}</td>
-                                <td>{{ $user->role_name  }}</td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                        <h1>Registrable Users</h1>
+                        <div class="table-responsive">
+                            <table id="registrable_table" class="table table-sm table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Email</th>
+                                        <td>Store Name</td>
+                                        <td>Role Name</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($allowed_user_emails as $user)
+                                        <tr>
+                                            <td>{{ $user->email }}</td>
+                                            <td>{{ $user->store_name  }}</td>
+                                            <td>{{ $user->role_name  }}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
 
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#registrationModal">Add New User Registration</button>
+                        <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#registrationModal">Add New User Registration</button>
+
+                    </div>
+                </div>
 
             </div>
         </div>
@@ -75,7 +90,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="Registration Modal">Modal title</h5>
+                        <h5 class="modal-title" id="Registration Modal">Registration</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>

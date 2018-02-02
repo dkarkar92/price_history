@@ -17,3 +17,7 @@ footer {
 footer p {
     margin-bottom: 0rem;
 }
+
+.card-body {
+    padding: .25rem !important;
+}
