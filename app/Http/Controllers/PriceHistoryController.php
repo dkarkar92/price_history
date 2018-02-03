@@ -36,9 +36,26 @@ class PriceHistoryController extends Controller
             ->where('users.id', \Auth::user()->id)
             ->where('users.active_flg', 1)
             ->where('stores.active_flg', 1)
+            ->where('users_to_stores.active_flg', 1)
             ->get();
 
-        $price_history = \App\price_history::orderBy("log_date", "ASC")->where('store_id', $default_store_id)->get();
+        $default_store_exists = false;
+        foreach ($stores_to_user as $key => $value) {
+            if ($value->id == $default_store_id) {
+                $default_store_exists = true;
+                break;
+            }
+        }
+
+        if ($default_store_exists === true) {
+            $price_history = \App\price_history::orderBy("log_date", "ASC")->where('store_id', $default_store_id)->get();
+        } else {
+            foreach ($stores_to_user as $key => $value) {
+                $store_id = $value->id;
+                break;
+            }
+            $price_history = \App\price_history::orderBy("log_date", "ASC")->where('store_id', $store_id)->get();
+        }
 
         return view('price_history')
             ->with('price_history', $price_history)
@@ -99,6 +116,7 @@ class PriceHistoryController extends Controller
             ->where('users.id', \Auth::user()->id)
             ->where('users.active_flg', 1)
             ->where('stores.active_flg', 1)
+            ->where('users_to_stores.active_flg', 1)
             ->get();
 
         $price_history = \App\price_history::orderBy("log_date", "ASC")->where('store_id', $store_id)->get();

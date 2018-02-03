@@ -11,9 +11,9 @@
         <select id="main_store_select" name="main_store_select">
             @foreach ($stores_to_user as $key => $value)
                 @if ($store->id == $value->id)
-                    <option value="{{ $value->id }}" selected>{{ $value->name }}</option>
+                    <option value="{{ $value->id }}" selected data-url="{{ action('PriceHistoryController@show', ['id' => $value->id]) }}">{{ $value->name }}</option>
                 @else
-                    <option value="{{ $value->id }}">{{ $value->name }}</option>
+                    <option value="{{ $value->id }}" data-url="{{ action('PriceHistoryController@show', ['id' => $value->id]) }}">{{ $value->name }}</option>
                 @endif
             @endforeach
         </select>

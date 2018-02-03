@@ -1,4 +1,5 @@
 $( document ).ready(function() {
+
     var today = moment().format("YYYY-MM-DD");
     var store_id = $("#main_store_select").val();
 
@@ -44,6 +45,7 @@ $( document ).ready(function() {
         "pageLength": 10
     });
 
+    //get graph data
     $.ajax({
         method: "GET",
         url: "price_history/graph",
@@ -117,29 +119,14 @@ $( document ).ready(function() {
         console.error('Error:', data);
     });
 
-    var href = window.location.href;
-    console.log("getting here");
-    console.log(window.location.pathname);
-    
-    var cut_string = href.substring((href.lastIndexOf('/') + 1));
-    console.log(cut_string);
-    console.log(href.substring(0, cut_string.length - 1));
-
-    // on store select change
+    // on store select change url
     $( "#main_store_select" ).change(function() {
         var store_id = $(this).val();
-        var href = window.location.href;
-        console.log(store_id);
 
-        console.log(window.location.pathname);
-        var cut_string = href.substring((href.lastIndexOf('/') + 1));
-        console.log(cut_string);
-        console.log(href.substring(0, cut_string.length - 1));
-        if ( Number.isInteger(cut_string) ) {
-            window.location = href.substring(0, cut_string.length - 1) + store_id;
-        } else {
-            window.location = "/" + store_id;
-        }
+        $( "#main_store_select option:selected" ).each(function() {
+            window.location = $(this).attr("data-url");
+            return false;
+        });
 
     });
 
