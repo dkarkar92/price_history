@@ -71,6 +71,20 @@ if (Auth::check()) {
                 @endif
             </ul>
             <ul class="navbar-nav navbar-right">
+                {{-- <li class="nav-item dropdown">
+                    <a href="#" id="user_stores" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
+                        Maple Cleaners <span class="caret"></span>
+                    </a>
+
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="user_stores">
+
+                        <a href="#" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            Store 2
+                        </a>
+
+                    </div>
+                </li> --}}
+
                 @guest
                     <li class="nav-item {{ Request::segment(1) === 'login' ? 'active' : '' }}"><a href="{{ route('login') }}" class="nav-link">Login</a></li>
                     <li class="nav-item {{ Request::segment(1) === 'register' ? 'active' : '' }}"><a href="{{ route('register') }}" class="nav-link">Register</a></li>
@@ -82,9 +96,7 @@ if (Auth::check()) {
 
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="login_stuff">
 
-                            <a href="{{ route('logout') }}" class="dropdown-item"
-                               onclick="event.preventDefault();
-                                                         document.getElementById('logout-form').submit();">
+                            <a href="{{ route('logout') }}" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                 Logout
                             </a>
 

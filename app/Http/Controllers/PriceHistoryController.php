@@ -6,11 +6,11 @@ use Illuminate\Http\Request;
 use App\price_history;
 use App\Store;
 
-class PriceHistory extends Controller
+class PriceHistoryController extends Controller
 {
 
     /**
-     * PriceHistory constructor.
+     * PriceHistoryController constructor.
      */
     public function __construct()
     {
@@ -54,7 +54,6 @@ class PriceHistory extends Controller
     public function create(Request $request)
     {
         $request->user()->authorizeRoles(['employee', 'manager', 'admin']);
-        die("create");
     }
 
     /**
@@ -68,19 +67,23 @@ class PriceHistory extends Controller
         $request->user()->authorizeRoles(['employee', 'manager', 'admin']);
 
         $price_history = new price_history;
-        $price_history->cash = $request->cash;
+        $price_history->cash        = $request->cash;
         $price_history->credit_card = $request->credit_card;
-        $price_history->log_date = date("Y-m-d", strtotime($request->date));
+        $price_history->store_id    = $request->store_id;
+        $price_history->log_date    = date("Y-m-d", strtotime($request->date));
 
         $price_history->save();
 
-        return redirect('/');
+        //return redirect('/');
+        return redirect()->action(
+            'PriceHistoryController@show', ['store_id' => $request->store_id]
+        );
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\price_history  $price_history
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show(Request $request, $store_id)
@@ -109,80 +112,79 @@ class PriceHistory extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\price_history  $price_history
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request, $price_history)
+    public function edit(Request $request, $id)
     {
         $request->user()->authorizeRoles(['employee', 'manager', 'admin']);
-        die("edit");
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\price_history  $price_history
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $price_history)
+    public function update(Request $request, $id)
     {
         $request->user()->authorizeRoles(['employee', 'manager', 'admin']);
-        die("update");
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\price_history  $price_history
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $price_history)
+    public function destroy(Request $request, $id)
     {
         $request->user()->authorizeRoles(['employee', 'manager', 'admin']);
-        die("delete");
     }
 
-    /**
-     * Query and return JSON response for price_history graph data
-     *
-     * @return string \Illuminate\Http\Response
-     */
-    public function graph(Request $request)
-    {
-        $request->user()->authorizeRoles(['employee', 'manager', 'admin']);
 
-        $default_store_id = \Auth::user()->default_store_id;
+        /**
+         * Query and return JSON response for price_history graph data
+         *
+         * @return string \Illuminate\Http\Response
+         */
+        public function graph(Request $request)
+        {
+            $request->user()->authorizeRoles(['employee', 'manager', 'admin']);
 
-        $price_history = \App\price_history::orderBy("log_date", "ASC")->where('store_id', $default_store_id)->get();
+            //$default_store_id = \Auth::user()->default_store_id;
+            $store_id = $request->store_id;
 
-        $price_dataset = array();
-        foreach ($price_history as $key => $value) {
-            $price_dataset['date'][] = $value['log_date'];
-            $price_dataset['cash'][] = $value['cash'];
-            $price_dataset['credit_card'][] = $value['credit_card'];
+            $price_history = \App\price_history::orderBy("log_date", "ASC")->where('store_id', $store_id)->get();
+
+            $price_dataset = array();
+            foreach ($price_history as $key => $value) {
+                $price_dataset['date'][] = $value['log_date'];
+                $price_dataset['cash'][] = $value['cash'];
+                $price_dataset['credit_card'][] = $value['credit_card'];
+            }
+
+            return json_encode($price_dataset);
         }
 
-        return json_encode($price_dataset);
-    }
+        /**
+         * return price history data for a specific store on a specific day.
+         * @return JSON
+         */
+        public function getPriceDataForDay(Request $request) {
+            $request->user()->authorizeRoles(['employee', 'manager', 'admin']);
+            $date = $request->date;
+            $date = date("Y-m-d", strtotime($date));
 
-    /**
-     * return price history data for a specific store on a specific day.
-     * @return JSON
-     */
-    public function getPriceDataForDay(Request $request) {
-        $request->user()->authorizeRoles(['employee', 'manager', 'admin']);
-        $date = $request->date;
-        $date = date("Y-m-d", strtotime($date));
+            $store_id = $request->store_id;
 
-        $default_store_id = \Auth::user()->default_store_id;
+            $price_history = \App\price_history::where('store_id', $store_id)->where("log_date", $date)->first();
 
-        $price_history = \App\price_history::where('store_id', $default_store_id)->where("log_date", $date)->first();
+            if (empty($price_history)) {
+                $price_history = array();
+            }
 
-        if (empty($price_history)) {
-            $price_history = array();
+            return json_encode($price_history);
         }
-
-        return json_encode($price_history);
-    }
 }

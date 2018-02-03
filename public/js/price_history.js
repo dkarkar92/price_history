@@ -1,5 +1,6 @@
 $( document ).ready(function() {
     var today = moment().format("YYYY-MM-DD");
+    var store_id = $("#main_store_select").val();
 
     Date.prototype.toDateInputValue = (function() {
         var local = new Date(this);
@@ -17,7 +18,8 @@ $( document ).ready(function() {
             method: "GET",
             url: "price_history/price_for_day",
             data: {
-                date: this.value
+                date: this.value,
+                store_id: store_id
             },
             dataType: 'json'
         }).done(function( data ) {
@@ -45,6 +47,9 @@ $( document ).ready(function() {
     $.ajax({
         method: "GET",
         url: "price_history/graph",
+        data: {
+            store_id: store_id
+        },
         dataType: 'json'
     }).done(function( data ) {
         var formatted_date = [];
@@ -110,6 +115,32 @@ $( document ).ready(function() {
         });
     }).fail(function( data ) {
         console.error('Error:', data);
+    });
+
+    var href = window.location.href;
+    console.log("getting here");
+    console.log(window.location.pathname);
+    
+    var cut_string = href.substring((href.lastIndexOf('/') + 1));
+    console.log(cut_string);
+    console.log(href.substring(0, cut_string.length - 1));
+
+    // on store select change
+    $( "#main_store_select" ).change(function() {
+        var store_id = $(this).val();
+        var href = window.location.href;
+        console.log(store_id);
+
+        console.log(window.location.pathname);
+        var cut_string = href.substring((href.lastIndexOf('/') + 1));
+        console.log(cut_string);
+        console.log(href.substring(0, cut_string.length - 1));
+        if ( Number.isInteger(cut_string) ) {
+            window.location = href.substring(0, cut_string.length - 1) + store_id;
+        } else {
+            window.location = "/" + store_id;
+        }
+
     });
 
 });

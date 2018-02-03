@@ -7,7 +7,17 @@
 @section('content')
 <div class="container">
 
-    <h1>{{ $store->name }}</h1>
+    <h1>
+        <select id="main_store_select" name="main_store_select">
+            @foreach ($stores_to_user as $key => $value)
+                @if ($store->id == $value->id)
+                    <option value="{{ $value->id }}" selected>{{ $value->name }}</option>
+                @else
+                    <option value="{{ $value->id }}">{{ $value->name }}</option>
+                @endif
+            @endforeach
+        </select>
+    </h1>
 
     <hr>
 
@@ -18,7 +28,9 @@
         <div class="card">
             <div class="card-body">
                 <div class="col">
-                    <form method="post" action="{{ action('PriceHistory@store') }}">
+                    <form method="post" action="{{ action('PriceHistoryController@store') }}">
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                        <input type="hidden" name="store_id" value="{{ $store->id }}">
 
                         <div class="form-group">
                             <label for="date">Date</label>
@@ -46,7 +58,7 @@
                         </div>
 
                         <button type="submit" id="submit_btn" class="btn btn-primary">Submit</button>
-                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+
                     </form>
                 </div>
             </div>
