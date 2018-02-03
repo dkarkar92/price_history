@@ -15,8 +15,13 @@
     return view('welcome');
 });*/
 
+// Route::resource('/', 'PriceHistory', ['only' => [
+//     'index', 'store', 'show'
+// ]]);
+
 Route::resources([
-    '/'             => 'PriceHistory',
+    //'/'             => 'PriceHistory',
+    '/'             => 'PriceHistoryController',
     '/users'        => 'UserController',
     '/stores'       => 'StoreController',
     '/summary'      => 'SummaryController',
@@ -24,11 +29,13 @@ Route::resources([
     '/hours'        => 'EmployeeHoursController'
 ]);
 
-Route::post('price_history/store', "PriceHistory@store");
+Route::post('price_history/store', "PriceHistoryController@store");
 Route::post('users/allowed_user_emails', "UserController@addRegistrableUser");
 
-Route::get('price_history/graph', "PriceHistory@graph");
-Route::get('price_history/price_for_day', "PriceHistory@getPriceDataForDay");
+Route::get('/{id}', "PriceHistoryController@show");
+
+Route::get('price_history/graph', "PriceHistoryController@graph");
+Route::get('price_history/price_for_day', "PriceHistoryController@getPriceDataForDay");
 
 //StoreController@addUserToStore
 /*Route::get('/stores/add_user_to_store/{user_id}/{store_id}', function ($user_id, $store_id) {

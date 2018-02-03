@@ -1,5 +1,7 @@
 $( document ).ready(function() {
+
     var today = moment().format("YYYY-MM-DD");
+    var store_id = $("#main_store_select").val();
 
     Date.prototype.toDateInputValue = (function() {
         var local = new Date(this);
@@ -17,7 +19,8 @@ $( document ).ready(function() {
             method: "GET",
             url: "price_history/price_for_day",
             data: {
-                date: this.value
+                date: this.value,
+                store_id: store_id
             },
             dataType: 'json'
         }).done(function( data ) {
@@ -42,9 +45,13 @@ $( document ).ready(function() {
         "pageLength": 10
     });
 
+    //get graph data
     $.ajax({
         method: "GET",
         url: "price_history/graph",
+        data: {
+            store_id: store_id
+        },
         dataType: 'json'
     }).done(function( data ) {
         var formatted_date = [];
@@ -110,6 +117,17 @@ $( document ).ready(function() {
         });
     }).fail(function( data ) {
         console.error('Error:', data);
+    });
+
+    // on store select change url
+    $( "#main_store_select" ).change(function() {
+        var store_id = $(this).val();
+
+        $( "#main_store_select option:selected" ).each(function() {
+            window.location = $(this).attr("data-url");
+            return false;
+        });
+
     });
 
 });
