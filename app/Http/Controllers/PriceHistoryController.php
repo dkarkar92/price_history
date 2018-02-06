@@ -28,7 +28,7 @@ class PriceHistoryController extends Controller
 
         $default_store_id = \Auth::user()->default_store_id;
         $store = \App\Store::where('id', $default_store_id)->first();
-
+        
         $stores_to_user = \DB::table('users_to_stores')
             ->join('users', 'users.id', '=', 'users_to_stores.user_id')
             ->join('stores', 'stores.id', '=', 'users_to_stores.store_id')
@@ -39,12 +39,16 @@ class PriceHistoryController extends Controller
             ->where('users_to_stores.active_flg', 1)
             ->get();
 
-        $default_store_exists = false;
-        foreach ($stores_to_user as $key => $value) {
-            if ($value->id == $default_store_id) {
-                $default_store_exists = true;
-                break;
+        if ($stores_to_user->isNotEmpty()) {
+            $default_store_exists = false;
+            foreach ($stores_to_user as $key => $value) {
+                if ($value->id == $default_store_id) {
+                    $default_store_exists = true;
+                    break;
+                }
             }
+        } else {
+            $default_store_exists = true;
         }
 
         if ($default_store_exists === true) {

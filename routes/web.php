@@ -18,10 +18,10 @@
 // Route::resource('/', 'PriceHistory', ['only' => [
 //     'index', 'store', 'show'
 // ]]);
-
+//
 Route::resources([
     //'/'             => 'PriceHistory',
-    '/'             => 'PriceHistoryController',
+    '/'         => 'PriceHistoryController',
     '/users'        => 'UserController',
     '/stores'       => 'StoreController',
     '/summary'      => 'SummaryController',
@@ -32,7 +32,7 @@ Route::resources([
 Route::post('price_history/store', "PriceHistoryController@store");
 Route::post('users/allowed_user_emails', "UserController@addRegistrableUser");
 
-Route::get('/{id}', "PriceHistoryController@show");
+Route::get('/store/{id}', "PriceHistoryController@show");
 
 Route::get('price_history/graph', "PriceHistoryController@graph");
 Route::get('price_history/price_for_day', "PriceHistoryController@getPriceDataForDay");
@@ -41,6 +41,7 @@ Route::get('price_history/price_for_day', "PriceHistoryController@getPriceDataFo
 /*Route::get('/stores/add_user_to_store/{user_id}/{store_id}', function ($user_id, $store_id) {
     return 'User '. $user_id;
 });*/
+
 Route::post('/stores/add_user_to_store/{store_id}', "StoreController@addUserToStore");
 
 Route::get('/test', function () {
