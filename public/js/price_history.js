@@ -17,7 +17,7 @@ $( document ).ready(function() {
 
         $.ajax({
             method: "GET",
-            url: "price_history/price_for_day",
+            url: $("#date").attr("data-url"),  //"../price_history/price_for_day",
             data: {
                 date: this.value,
                 store_id: store_id
@@ -48,7 +48,7 @@ $( document ).ready(function() {
     //get graph data
     $.ajax({
         method: "GET",
-        url: "price_history/graph",
+        url: $("#myChart").attr("data-url"), //"../price_history/graph",
         data: {
             store_id: store_id
         },
