@@ -8,7 +8,9 @@
 <div class="container">
 
     <h1>
-        <select id="main_store_select" name="main_store_select">
+
+        @if($stores_to_user->isNotEmpty())
+            <select id="main_store_select" name="main_store_select">
             @foreach ($stores_to_user as $key => $value)
                 @if ($store->id == $value->id)
                     <option value="{{ $value->id }}" selected data-url="{{ action('PriceHistoryController@show', ['id' => $value->id]) }}">{{ $value->name }}</option>
@@ -16,7 +18,11 @@
                     <option value="{{ $value->id }}" data-url="{{ action('PriceHistoryController@show', ['id' => $value->id]) }}">{{ $value->name }}</option>
                 @endif
             @endforeach
-        </select>
+            </select>
+        @else
+            {{ $store->name }}
+        @endif
+
     </h1>
 
     <hr>
@@ -34,7 +40,7 @@
 
                         <div class="form-group">
                             <label for="date">Date</label>
-                            <input type="date" class="form-control" id="date" name="date">
+                            <input type="date" class="form-control" id="date" name="date" data-url="{{ action('PriceHistoryController@getPriceDataForDay') }}">
                         </div>
 
                         <div class="form-group">
@@ -97,7 +103,7 @@
 
             <div class="card">
                 <div class="card-body">
-                    <canvas id="myChart" height="250" ></canvas>
+                    <canvas id="myChart" height="250" data-url="{{ action('PriceHistoryController@graph') }}"></canvas>
                 </div>
             </div>
 
