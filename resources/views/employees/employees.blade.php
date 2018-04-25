@@ -100,7 +100,7 @@
                                 <label for="default_payment_type" class="col-form-label">Payment Type:</label>
                                 <select class="form-control" id="default_payment_type" name="default_payment_type" required>
                                         <option value="Cash">Cash</option>
-                                        <option value="Credit">Credit</option>
+                                        <option value="Check">Check</option>
                                 </select>
                             </div>
 

@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
 <head>
@@ -49,6 +50,7 @@ if (Auth::check()) {
                     <a class="nav-link {{ is_null(Request::segment(1)) ? 'active' : '' }}" href="{{ url('/') }}">Home <span class="sr-only">(current)</span></a>
                 </li>
 
+
                 @if ($user_role !== false && in_array($user_role, array("admin")))
                     <li class="nav-item">
                         <a class="nav-link {{ Request::segment(1) === 'users' ? 'active' : '' }}" href="{{ url('/users') }}">Users <span class="sr-only">(current)</span></a>
@@ -68,7 +70,18 @@ if (Auth::check()) {
                     <li class="nav-item">
                         <a class="nav-link {{ Request::segment(1) === 'hours' ? 'active' : '' }}" href="{{ url('/hours') }}">Employee Hours <span class="sr-only">(current)</span></a>
                     </li>
+
+
                 @endif
+
+              @if ($user_role !== false && in_array($user_role, array("admin", "manager", "employee")))
+                <li class="nav-item">
+                    <a class="nav-link {{ Request::segment(1) === 'expanses' ? 'active' : '' }}" href="{{ url('/expanses') }}">Expenses <span class="sr-only">(current)</span></a>
+                </li>
+              @endif
+
+
+
             </ul>
             <ul class="navbar-nav navbar-right">
                 {{-- <li class="nav-item dropdown">

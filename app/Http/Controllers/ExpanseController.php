@@ -3,14 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\price_history;
-use App\Store;
+use App\expanse;
+use APP\Store;
 
-class PriceHistoryController extends Controller
+class ExpanseController extends Controller
 {
 
     /**
-     * PriceHistoryController constructor.
+     * ExpanseController constructor.
      */
     public function __construct()
     {
@@ -52,17 +52,17 @@ class PriceHistoryController extends Controller
         }
 
         if ($default_store_exists === true) {
-            $price_history = \App\price_history::orderBy("log_date", "ASC")->where('store_id', $default_store_id)->get();
+            $expanses = \App\expanse::orderBy("log_date", "ASC")->where('store_id', $default_store_id)->get();
         } else {
             foreach ($stores_to_user as $key => $value) {
                 $store_id = $value->id;
                 break;
             }
-            $price_history = \App\price_history::orderBy("log_date", "ASC")->where('store_id', $store_id)->get();
+            $expanses = \App\expanse::orderBy("log_date", "ASC")->where('store_id', $store_id)->get();
         }
 
-        return view('price_history')
-            ->with('price_history', $price_history)
+        return view('/expanses/expanses')
+            ->with('expanses', $expanses)
             ->with('store', $store)
             ->with('stores_to_user', $stores_to_user);
     }
@@ -87,17 +87,18 @@ class PriceHistoryController extends Controller
     {
         $request->user()->authorizeRoles(['employee', 'manager', 'admin']);
 
-        $price_history = new price_history;
-        $price_history->cash        = $request->cash;
-        $price_history->credit_card = $request->credit_card;
-        $price_history->store_id    = $request->store_id;
-        $price_history->log_date    = date("Y-m-d", strtotime($request->date));
+        $expanses = new expanse;
+        $expanses->amount        = $request->amount;
+        $expanses->payment_type  = $request->payment_type;
+        $expanses->description   = $request->description;
+        $expanses->store_id      = $request->store_id;
+        $expanses->log_date      = date("Y-m-d", strtotime($request->date));
 
-        $price_history->save();
+        $expanses->save();
 
         //return redirect('/');
         return redirect()->action(
-            'PriceHistoryController@show', ['store_id' => $request->store_id]
+            'ExpanseController@show', ['store_id' => $request->store_id]
         );
     }
 
@@ -123,16 +124,16 @@ class PriceHistoryController extends Controller
             ->where('users_to_stores.active_flg', 1)
             ->get();
 
-        $price_history = \App\price_history::orderBy("log_date", "ASC")->where('store_id', $store_id)->get();
+        $expanses = \App\expanse::orderBy("log_date", "ASC")->where('store_id', $store_id)->get();
 
-        return view('price_history')
-            ->with('price_history', $price_history)
+        return view('/expanses/expanses')
+            ->with('expanses', $expanses)
             ->with('store', $store)
             ->with('stores_to_user', $stores_to_user);
     }
 
     /**
-     * Show the form for editing the daily data.
+     * Show the form for editing the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -141,9 +142,9 @@ class PriceHistoryController extends Controller
     {
         $request->user()->authorizeRoles(['admin']);
 
-        $price_history = \App\price_history::find($id);
+        $expanse = \App\Expanse::find($id);
 
-        return view('edit_price_history')->with('price_history', $price_history);
+        return view('/expanses/edit_expanse')->with('expanse', $expanse);
     }
 
     /**
@@ -157,14 +158,15 @@ class PriceHistoryController extends Controller
     {
         $request->user()->authorizeRoles(['employee', 'manager', 'admin']);
 
-        $price_history = \App\price_history::find($id);
+        $expanse = \App\Expanse::find($id);
 
-        $price_history->cash = $request->cash;
-        $price_history->credit_card = $request->credit_card;
+        $expanse->amount = $request->amount;
+        $expanse->payment_type = $request->payment_type;
+        $expanse->description = $request->description;
 
-        $price_history->save();
+        $expanse->save();
 
-        return redirect()->action('PriceHistoryController@index');
+        return redirect()->action('ExpanseController@index');
     }
 
     /**
@@ -177,54 +179,32 @@ class PriceHistoryController extends Controller
     {
         $request->user()->authorizeRoles(['admin']);
 
-        $price_history = \App\price_history::find($id);
-        $price_history->delete();
+        $expanse = \App\Expanse::find($id);
+        $expanse->delete();
 
-        return redirect()->action('PriceHistoryController@index');
+        return redirect()->action('ExpanseController@index');
+
+
     }
 
 
         /**
-         * Query and return JSON response for price_history graph data
-         *
-         * @return string \Illuminate\Http\Response
-         */
-        public function graph(Request $request)
-        {
-            $request->user()->authorizeRoles(['employee', 'manager', 'admin']);
-
-            //$default_store_id = \Auth::user()->default_store_id;
-            $store_id = $request->store_id;
-
-            $price_history = \App\price_history::orderBy("log_date", "ASC")->where('store_id', $store_id)->get();
-
-            $price_dataset = array();
-            foreach ($price_history as $key => $value) {
-                $price_dataset['date'][] = $value['log_date'];
-                $price_dataset['cash'][] = $value['cash'];
-                $price_dataset['credit_card'][] = $value['credit_card'];
-            }
-
-            return json_encode($price_dataset);
-        }
-
-        /**
-         * return price history data for a specific store on a specific day.
+         * return expanse data for a specific store on a specific day.
          * @return JSON
          */
-        public function getPriceDataForDay(Request $request) {
+      public function getExpanseDataForDay(Request $request) {
             $request->user()->authorizeRoles(['employee', 'manager', 'admin']);
             $date = $request->date;
             $date = date("Y-m-d", strtotime($date));
 
             $store_id = $request->store_id;
 
-            $price_history = \App\price_history::where('store_id', $store_id)->where("log_date", $date)->first();
+            $expanses = \App\expanse::where('store_id', $store_id)->where("log_date", $date)->first();
 
-            if (empty($price_history)) {
-                $price_history = array();
+            if (empty($expanses)) {
+                $expanses = array();
             }
 
-            return json_encode($price_history);
+            return json_encode($expanses);
         }
 }

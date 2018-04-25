@@ -13,4 +13,12 @@ class Store extends Model
     {
         return $this->belongsToMany('App\User', 'users_to_stores');
     }
+
+    /**
+     * The employee that bellng to the store.
+     */
+    public function employees()
+    {
+        return $this->belongsToMany(employee::class);
+    }
 }
