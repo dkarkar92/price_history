@@ -14,7 +14,7 @@ services:
     environment:
       DB_HOST: mysql
       DB_DATABASE: price_history
-      DB_USERNAME: dbuser123
+      DB_USERNAME: dbuser
       DB_PASSWORD: password
   mysql:
     image: mysql:5.7
