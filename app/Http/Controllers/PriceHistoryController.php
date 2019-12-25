@@ -52,13 +52,13 @@ class PriceHistoryController extends Controller
         }
 
         if ($default_store_exists === true) {
-            $price_history = \App\price_history::orderBy("log_date", "ASC")->where('store_id', $default_store_id)->get();
+            $price_history = \App\price_history::orderBy("log_date", "DESC")->where('store_id', $default_store_id)->get();
         } else {
             foreach ($stores_to_user as $key => $value) {
                 $store_id = $value->id;
                 break;
             }
-            $price_history = \App\price_history::orderBy("log_date", "ASC")->where('store_id', $store_id)->get();
+            $price_history = \App\price_history::orderBy("log_date", "DESC")->where('store_id', $store_id)->get();
         }
 
         return view('price_history')
@@ -178,7 +178,12 @@ class PriceHistoryController extends Controller
             //$default_store_id = \Auth::user()->default_store_id;
             $store_id = $request->store_id;
 
-            $price_history = \App\price_history::orderBy("log_date", "ASC")->where('store_id', $store_id)->get();
+            $date = new \DateTime("366 days ago");
+
+            $price_history = \App\price_history::orderBy("log_date", "ASC")
+                ->where('store_id', $store_id)
+                ->whereDate('log_date', '>=', $date->format("Y-m-d"))
+                ->get();
 
             $price_dataset = array();
             foreach ($price_history as $key => $value) {

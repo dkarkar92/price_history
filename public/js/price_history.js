@@ -13,7 +13,9 @@ $( document ).ready(function() {
     $('#date').pickadate();
 
     $('#date').change(function() {
-        var picked_date = moment(this.value).format("YYYY-MM-DD");
+        const FORMAT = "D MMMM, YYYY";
+        const date_value = moment(this.value, FORMAT);
+        const picked_date = moment(date_value).format("YYYY-MM-DD");
 
         $.ajax({
             method: "GET",
@@ -42,7 +44,8 @@ $( document ).ready(function() {
     });
 
     $('#price_history_table').DataTable({
-        "pageLength": 10
+        "pageLength": 10,
+        "order": [[ 0, "desc" ]]
     });
 
     //get graph data
@@ -71,13 +74,15 @@ $( document ).ready(function() {
                     data: data.cash,
                     backgroundColor: "#00baff",
                     borderColor: "#3e95cd",
-                    fill: false
+                    borderWidth: 1,
+                    fill: 'origin'
                 }, {
                     label: "Credit Card",
                     data: data.credit_card,
                     backgroundColor: "#ff4f62",
                     borderColor: "#c13b47",
-                    fill: false
+                    borderWidth: 1,
+                    fill: '-1'
                 }],
                 labels: formatted_date,
             },
